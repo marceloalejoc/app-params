@@ -1,7 +1,6 @@
 'use strict';
 
 const chalk = require('chalk');
-const casual = require('casual');
 const Sequelize = require('sequelize');
 
 const lang = {
@@ -64,17 +63,6 @@ const timestamps = {
 
 function setTimestamps (fields) {
   return Object.assign(fields, timestamps);
-}
-
-function setTimestampsSeeder (arr, idUser = 1) {
-  arr.map((el, index) => {
-    arr[index] = Object.assign(el, {
-      _user_created: idUser,
-      _created_at: new Date(casual.date('YYYY-MM-DD') + ' ' + casual.time('HH:mm:ss'))
-    });
-  });
-
-  return arr;
 }
 
 async function deleteItemModel (id, model) {
@@ -157,7 +145,6 @@ module.exports = {
   config,
   handleFatalError,
   setTimestamps,
-  setTimestampsSeeder,
   deleteItemModel,
   errorHandler
 };

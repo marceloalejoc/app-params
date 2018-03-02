@@ -22,6 +22,13 @@ test.serial('Parametro#createOrUpdate - new', async t => {
     _created_at: new Date()
   };
   let parametro = await parametros.createOrUpdate(nuevoParametro);
+
+  test.idParametro2 = parametro.id;
+  test.nombre = parametro.nombre;
+
+  nuevoParametro.nombre = `PARAM-TEST-${parseInt(Math.random() * 100000)}`;
+  parametro = await parametros.createOrUpdate(nuevoParametro);
+
   t.true(typeof parametro.id === 'number', 'Comprobando que el nuevo usuario tenga un id');
   t.is(parametro.nombre, nuevoParametro.nombre, 'Creando registro - nombre');
   t.is(parametro.valor, nuevoParametro.valor, 'Creando registro - valor');
@@ -34,11 +41,11 @@ test.serial('Parametro#createOrUpdate - new', async t => {
 test.serial('Parametro#findAll', async t => {
   let lista = await parametros.findAll();
 
-  t.true(lista.count >= 9, 'Se tiene 9 registros en la bd');
+  t.true(lista.count >= 2, 'Se tiene 2 registros en la bd');
 });
 
 test.serial('Parametro#findById', async t => {
-  const id = 1;
+  const id = test.idParametro;
 
   let parametro = await parametros.findById(id);
 
@@ -46,23 +53,22 @@ test.serial('Parametro#findById', async t => {
 });
 
 test.serial('Parametro#findByName', async t => {
-  const nombre = 'PATH_DOCS';
+  let parametro = await parametros.findByName(test.nombre);
 
-  let parametro = await parametros.findByName(nombre);
-
-  t.is(parametro.nombre, nombre, 'Se recuperó el registro mediante un nombre');
+  t.is(parametro.nombre, test.nombre, 'Se recuperó el registro mediante un nombre');
 });
 
-test.serial('Parametro#findByName', async t => {
-  const nombre = 'PATH_DOCS';
+test.serial('Parametro#getParam', async t => {
+  let parametro = await parametros.getParam(test.nombre);
 
-  let parametro = await parametros.findByName(nombre);
-
-  t.is(parametro.nombre, nombre, 'Se recuperó el registro mediante un nombre');
+  t.is(parametro.nombre, test.nombre, 'Se recuperó el registro mediante un nombre');
 });
 
 test.serial('Parametro#createOrUpdate - exists', async t => {
-  const newData = { id: test.idParametro, valor: 'Nuevo valor' };
+  const newData = {
+    id: test.idParametro,
+    valor: 'Nuevo valor'
+  };
 
   let parametro = await parametros.createOrUpdate(newData);
 
@@ -70,19 +76,20 @@ test.serial('Parametro#createOrUpdate - exists', async t => {
 });
 
 test.serial('Parametro#findAll#filter - nombre', async t => {
-  let lista = await parametros.findAll({ nombre: 'EMAIL_HOST' });
+  let lista = await parametros.findAll({ nombre: 'PARAM-TEST' });
 
-  t.is(lista.count, 1, 'Filtrando datos');
+  t.is(lista.count, 2, 'Filtrando datos');
 });
 
 test.serial('Parametro#findAll#filter - valor', async t => {
-  let lista = await parametros.findAll({ valor: 'home' });
+  let lista = await parametros.findAll({ valor: 'Nuevo' });
 
   t.is(lista.count, 1, 'Filtrando datos');
 });
 
 test.serial('Parametro#delete', async t => {
   let deleted = await parametros.deleteItem(test.idParametro);
+  deleted = await parametros.deleteItem(test.idParametro2);
 
   t.is(deleted, 1, 'Parametro eliminado');
 });
