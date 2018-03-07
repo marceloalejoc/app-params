@@ -20,6 +20,7 @@
   "author": "Omar Gutiérrez Condori <omargc.mus@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.3.2",
     "defaults": "^1.0.3",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
