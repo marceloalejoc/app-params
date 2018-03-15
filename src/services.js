@@ -1,6 +1,7 @@
 'use strict';
 
 const { getQuery, errorHandler, deleteItemModel } = require('./util');
+const Graphql = require('./graphql');
 
 module.exports = function paramsServices (parametros, Sequelize) {
   const Op = Sequelize.Op;
@@ -84,6 +85,7 @@ module.exports = function paramsServices (parametros, Sequelize) {
     findByName,
     deleteItem,
     createOrUpdate,
-    getParam
+    getParam,
+    graphql: Graphql(parametros)
   };
 };

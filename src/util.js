@@ -3,6 +3,13 @@
 const chalk = require('chalk');
 const Sequelize = require('sequelize');
 
+const config = {
+  database: 'base',
+  username: 'omarmus',
+  password: 'omar',
+  host: 'localhost'
+};
+
 const lang = {
   errors: {
     validation: {
@@ -127,12 +134,23 @@ function getText (oError) {
   return text;
 }
 
-const config = {
-  database: 'postgres',
-  username: 'postgres',
-  password: 'postgres',
-  host: 'localhost'
-};
+function permissions (context, permission) {
+  if (context.permissions) {
+    let type;
+    permission = permission.split('|');
+
+    for (let i in permission) {
+      if (context.permissions.indexOf(permission[i]) !== -1) {
+        return true;
+      } else {
+        type = permission[i].split(':')[1].toUpperCase();
+      }
+    }
+    throw new Error(`NOT_AUTHORIZED:${type || 'READ'}`);
+  } else {
+    throw new Error('NOT_AUTHORIZED:READ');
+  }
+}
 
 function handleFatalError (err) {
   console.error(`${chalk.red('[fatal error]')} ${err.message}`);
@@ -146,5 +164,6 @@ module.exports = {
   handleFatalError,
   setTimestamps,
   deleteItemModel,
-  errorHandler
+  errorHandler,
+  permissions
 };

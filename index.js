@@ -17,7 +17,7 @@ module.exports = async function (config) {
   let sequelize = new Sequelize(config);
 
   // Cargando modelo
-  const params = sequelize.import('src/model');
+  const Parameter = sequelize.import('src/model');
 
   // Verificando conexión con la BD
   await sequelize.authenticate();
@@ -25,6 +25,6 @@ module.exports = async function (config) {
   // Creando las tablas
   await sequelize.sync();
 
-  // Cargando los servicios de params
-  return services(params, Sequelize);
+  // Cargando los servicios de Parameter
+  return services(Parameter, Sequelize);
 };
