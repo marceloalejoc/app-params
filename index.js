@@ -24,7 +24,7 @@ module.exports = async function (config) {
   await sequelize.authenticate();
 
   // Creando las tablas
-  await sequelize.sync();
+  await sequelize.sync(config.force ? { force: true } : {});
 
   // Cargando los servicios de params
   let Services = services(params, Sequelize);

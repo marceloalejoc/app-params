@@ -8,6 +8,7 @@ let parametros;
 
 test.beforeEach(async () => {
   if (!parametros) {
+    config.force = true; // Forzando la eliminación de la tabla
     parametros = await Params(config).catch(handleFatalError);
   }
 });
