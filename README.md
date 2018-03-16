@@ -1,6 +1,6 @@
 # Módulo params
 
-Creación, búsqueda y listado de params registrandolo en una tabla con Sequelize y Postgresql
+Creación, búsqueda y listado de params registrandolo en una tabla con Sequelize, Postgresql y Graphql
 
 ## Requisitos
 - Nodejs 7.6 en adelante
