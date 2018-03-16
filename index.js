@@ -3,6 +3,7 @@
 const defaults = require('defaults');
 const Sequelize = require('sequelize');
 const services = require('./src/services');
+const Graphql = require('./src/graphql');
 
 module.exports = async function (config) {
   config = defaults(config, {
@@ -17,7 +18,7 @@ module.exports = async function (config) {
   let sequelize = new Sequelize(config);
 
   // Cargando modelo
-  const Parameter = sequelize.import('src/model');
+  const params = sequelize.import('src/model');
 
   // Verificando conexión con la BD
   await sequelize.authenticate();
@@ -25,6 +26,9 @@ module.exports = async function (config) {
   // Creando las tablas
   await sequelize.sync();
 
-  // Cargando los servicios de Parameter
-  return services(Parameter, Sequelize);
+  // Cargando los servicios de params
+  let Services = services(params, Sequelize);
+  Services.graphql = Graphql(Services);
+
+  return Services;
 };

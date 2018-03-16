@@ -87,15 +87,15 @@ test.serial('Parametro#findAll#filter - valor', async t => {
   t.is(lista.count, 1, 'Filtrando datos');
 });
 
+test.serial('Parametro#Graphql - lista', async t => {
+  let lista = await parametros.graphql.resolvers.Query.parametros(null, {}, { permissions: ['parametros:read'] });
+
+  t.true(lista.count >= 2, 'Se tiene 2 registros en la bd');
+});
+
 test.serial('Parametro#delete', async t => {
   let deleted = await parametros.deleteItem(test.idParametro);
   deleted = await parametros.deleteItem(test.idParametro2);
 
   t.is(deleted, 1, 'Parametro eliminado');
-});
-
-test.serial('Parametro#Graphql - lista', async t => {
-  let lista = await parametros.graphql.resolvers.Query.parametros(null, {}, { permissions: ['parametros:read'] });
-
-  t.true(lista.length >= 1, 'Se tiene 2 registros en la bd');
 });
