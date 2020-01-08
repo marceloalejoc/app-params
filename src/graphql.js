@@ -49,7 +49,7 @@ module.exports = Parametro => {
 
     # Objeto de paginación para Parametro
     type Parametros {
-      count: Int 
+      count: Int
       rows: [Parametro]
     }
 
@@ -64,18 +64,18 @@ module.exports = Parametro => {
       # Lista de parametros
       parametros(
         # Límite de la consulta para la paginación
-        limit: Int, 
+        limit: Int,
         # Nro. de página para la paginación
-        page: Int, 
+        page: Int,
         # Campo a ordenar, "-campo" ordena DESC
-        order: String, 
+        order: String,
         # Buscar por nombre de Parametro
         nombre: String
         # Buscar por el valor del Parametro
         valor: String
       ): Parametros
       # Obtener un parametro
-      parametro(id: Int!): Parametro
+      parametro(id: ID!): Parametro
       # Obtener un parámetro por nombre
       parametroBuscar(name: String!): Parametro
     `,
@@ -83,9 +83,9 @@ module.exports = Parametro => {
       # Agregar parametro
       parametroAdd(parametro: NewParametro!): Parametro
       # Editar parametro
-      parametroEdit(id: Int!, parametro: EditParametro!): Parametro
+      parametroEdit(id: ID!, parametro: EditParametro!): Parametro
       # Eliminar parametro
-      parametroDelete(id: Int!): DeleteParametro
+      parametroDelete(id: ID!): DeleteParametro
     `
   };
 
@@ -105,7 +105,7 @@ module.exports = Parametro => {
       parametroBuscar: (_, args, context) => {
         permissions(context, 'parametros:read');
 
-        return Parametro.getParameter(args.name);
+        return Parametro.getParam(args.name);
       }
     },
     Mutation: {
